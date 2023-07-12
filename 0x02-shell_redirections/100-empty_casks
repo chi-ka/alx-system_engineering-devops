@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -empty -print -delete|tr -d './' 
+find . -empty -print|tr -d './' 
