@@ -1,2 +1,2 @@
 #!/bin/bash
-cut -f 1|uniq -c|sort -g|tail -n 11|tr ' ' '\n'|sort -b|tail -n 11
+cut -f 1|sort -d|uniq -c|sort -n|uniq -u|tail -n 11
