@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script displays "Best School" 10 times using an while loop
+# But for the 9th iteration, displays Best School and then Hi on a new line.
+num=10
+while [ $num -gt 0 ]; do
+    echo "Best School"
+    if [ $num -eq 2 ];then
+        echo "Hi"
+    fi
+    ((num--))
+done
