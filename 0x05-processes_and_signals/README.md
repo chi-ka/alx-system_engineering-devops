@@ -18,3 +18,13 @@ Requirements:
 
 You cannot use pgrep
 The third line of your script must be # shellcheck disable=SC2009 (for more info about ignoring shellcheck error here)
+
+3. Show your Bash PID made easy
+mandatory
+Write a Bash script that displays the PID, along with the process name, of processes whose name contain the word bash.
+
+Requirements:
+
+You cannot use ps
+
+
