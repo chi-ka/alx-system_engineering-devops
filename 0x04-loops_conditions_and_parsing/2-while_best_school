@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This script displays "Best School" 10 times using a while loop
 num=10
 while [ $num -gt 0 ]; do
