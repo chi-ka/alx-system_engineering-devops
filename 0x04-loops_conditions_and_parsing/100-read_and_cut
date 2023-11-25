@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Set the field separator to ':'
+# Open /etc/passwd file for reading
+# Read each line in the file
+# Display username, user id, and home directory
+# Close the file descriptor
+# Specify the path to the passwd file
+passwd_file="/etc/passwd"
+while IFS=: read -r username x uid gid gecos home shell; do
+    # Display the required information
+    echo "$username:$uid:$home"
+done < "$passwd_file"
