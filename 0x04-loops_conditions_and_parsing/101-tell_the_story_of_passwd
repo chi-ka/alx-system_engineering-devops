@@ -4,9 +4,9 @@
 if [ -e /etc/passwd ]; then
   IFS=":"
 
-  while read -r username x userid groupid homedirectory shell; do
+  while read -r username userid groupid homedirectory shell; do
     IFS=":" read -r homedirectory shell <<< "$shell"
-    echo "The user $username is part of the $groupid gang, lives in $homedirectory and rides $shell. $userid's place is protected by the passcode x, more info about the user here: $username"
+    echo "The user $username is part of the $groupid gang, lives in $home and rides $shell. $userid's place is protected by the passcode x, more info about the user here: $username"
   done < /etc/passwd
 
   unset IFS
