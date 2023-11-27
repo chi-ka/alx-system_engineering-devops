@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Check if the file /etc/passwd exists
+if [ -e /etc/passwd ]; then
+  IFS=":"
+
+  while read -r username  userid groupid homepath shell; do
+    echo "The user $username is part of the $groupid gang, lives in $homepath and rides $shell."
+    echo "$userid's place is protected by the passcode x, more info about the user here: $username"
+  done < /etc/passwd
+
+  unset IFS
+else
+  echo "Error: /etc/passwd file not found."
+fi
