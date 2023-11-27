@@ -6,7 +6,7 @@
 # Close the file descriptor
 # Specify the path to the passwd file
 passwd_file="/etc/passwd"
-while IFS=: read -r username x uid gid gecos home shell; do
+while IFS=: read -r username uid home shell; do
     # Display the required information
     echo "$username:$uid:$home"
 done < "$passwd_file"
