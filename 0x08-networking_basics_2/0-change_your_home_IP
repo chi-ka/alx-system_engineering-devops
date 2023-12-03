@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Change the IP addresses
+
+hosts_file="/etc/hosts"
+temp_hosts_file="$HOME/hosts.new"
+
+cp "$hosts_file" "$temp_hosts_file"
+
+localhost_ip="127.0.0.2"
+facebook_ip="8.8.8.8"
+
+sed -i "s/^127.0.0.1[[:space:]]localhost/$localhost_ip localhost/" "$temp_hosts_file"
+
+sed -i "/*facebook.com*/ s/$/ $facebook_ip/" "$temp_hosts_file"
+
+if ! grep -q "facebook.com" "$temp_hosts_file"; then
+  echo "$facebook_ip facebook.com" >> "$temp_hosts_file"
+else
+  sed -i "s/*facebook.com*/$facebook_ip facebook.com/" "$temp_hosts_file"
+fi
+
+rm -f "$temp_hosts_file"
