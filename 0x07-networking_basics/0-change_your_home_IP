@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Change localhost to 127.0.0.2 and facebook.com to 8.8.8.8
+
+temp_hosts=$(mktemp)
+sed 's/127.0.0.1/127.0.0.2/g' /etc/hosts > "$temp_hosts"
+
+sudo cp "$temp_hosts" /etc/hosts
+
+rm "$temp_hosts"
