@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 def match_school(string)
-  regex = /hbt{0,4}n/
+  regex = /hbt*n/
   match = string.match(regex)
   if match
     puts match[0]
