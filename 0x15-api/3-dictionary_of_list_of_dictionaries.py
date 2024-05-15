@@ -50,7 +50,7 @@ def dictionary_of_list_of_dictionaries():
         output_dic[employee_id] = output
 
     outputjson = json.dumps(output_dic)
-    with open(f"todo_all_employees.json",'w') as f:
+    with open(f"todo_all_employees.json", 'w') as f:
         f.write(outputjson)
 
 
