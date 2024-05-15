@@ -1,7 +1,17 @@
 #!/usr/bin/python3
 
-import sys
+"""
+Fetches and displays the progress of an employee's TODO list.
+
+Args:
+    employee_id (int): The ID of the employee.
+
+Returns
+None
+"""
+
 import requests
+import sys
 
 
 def fetch_todo_progress(employee_id):
