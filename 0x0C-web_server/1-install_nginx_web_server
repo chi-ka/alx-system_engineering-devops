@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#Update package list and install Nginx
+apt-get update
+apt-get install -y nginx
+
+# Create the directory if it doesn't exist
+mkdir -p /var/www/html
+
+# Create the HTML file with "Hello World!" content
+echo "Hello World!" > /var/www/html/index.html
+
+# Ensure Nginx is configured to listen on port 80 and serve the HTML file
+cat << 'EOF' > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+EOF
+
+# Reload Nginx configuration
+nginx -s reload
+
+# Alternatively, you can restart Nginx using the init.d script directly if systemctl is not allowed
+/etc/init.d/nginx restart
+
