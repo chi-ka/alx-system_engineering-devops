@@ -1,22 +1,32 @@
 #!/usr/bin/env bash
-# Change the IP addresses
 
-hosts_file="/etc/hosts"
-temp_hosts_file="$HOME/hosts.new"
+# Backup the current /etc/hosts file
+cp /etc/hosts /etc/hosts.bak
 
-cp "$hosts_file" "$temp_hosts_file"
+# Copy /etc/hosts to a new file in the home directory
+cp /etc/hosts ~/hosts.new
 
-localhost_ip="127.0.0.2"
-facebook_ip="8.8.8.8"
+# Function to add or replace an entry in /etc/hosts
+add_or_replace_entry() {
+    local ip="$1"
+    local hostname="$2"
+    local file="$HOME/hosts.new"
+    
+    # Remove any existing lines containing the hostname
+    sed -i "/[[:space:]]${hostname}$/d" "$file"
+    
+    # Add the new entry
+    echo "${ip} ${hostname}" >> "$file"
+    echo "Configured ${hostname} to resolve to ${ip}."
+}
 
-sed -i "s/^127.0.0.1[[:space:]]localhost/$localhost_ip localhost/" "$temp_hosts_file"
+# Add or replace entries
+add_or_replace_entry "127.0.0.2" "localhost"
+add_or_replace_entry "8.8.8.8" "facebook.com"
 
-sed -i "/*facebook.com*/ s/$/ $facebook_ip/" "$temp_hosts_file"
+# Copy the modified hosts file back to /etc/hosts
+cp -f ~/hosts.new /etc/hosts
 
-if ! grep -q "facebook.com" "$temp_hosts_file"; then
-  echo "$facebook_ip facebook.com" >> "$temp_hosts_file"
-else
-  sed -i "s/*facebook.com*/$facebook_ip facebook.com/" "$temp_hosts_file"
-fi
-
-rm -f "$temp_hosts_file"
+# Output the final /etc/hosts file for verification
+echo "Final /etc/hosts file:"
+cat /etc/hosts
