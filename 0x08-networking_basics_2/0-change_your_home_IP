@@ -17,7 +17,6 @@ add_or_replace_entry() {
     
     # Add the new entry
     echo "${ip} ${hostname}" >> "$file"
-    echo "Configured ${hostname} to resolve to ${ip}."
 }
 
 # Add or replace entries
