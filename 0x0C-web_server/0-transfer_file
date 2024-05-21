@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#Bash script that transfers a file from our client to a server
+
+# Function to display usage
+usage() {
+    echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+}
+
+# Check if less than 4 arguments are passed
+if [ "$#" -lt 4 ]; then
+    usage
+fi
+
+# Assign parameters to variables
+FILE_PATH=$1
+SERVER_IP=$2
+USERNAME=$3
+SSH_KEY_PATH=$4
+
+# Use scp to transfer the file
+scp -i "$SSH_KEY_PATH" -o StrictHostKeyChecking=no "$FILE_PATH" "$USERNAME@$SERVER_IP:~/"
+
+# Check if scp was successful
+if [ "$?" -eq 0 ]; then
+    echo "File transferred successfully to $USERNAME@$SERVER_IP:~/"
+else
+    echo "File transfer failed"
+    exit 1
+fi
