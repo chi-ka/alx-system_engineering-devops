@@ -1,0 +1,85 @@
+User
+  |
+  | HTTP/HTTPS Request
+  v
+DNS (Resolves www.foobar.com to Load Balancer IP)
+  |
+  v
++-----------------+
+| Load Balancer   |
+|    (HAProxy)    |
++--------+--------+
+         |
+         v
++--------+--------+
+| Application     |
+|   Server 1      |
++--------+--------+
+         |
+         v
++--------+--------+
+|   Web Server    |
+|     (Nginx)     |
++--------+--------+
+         |
+         v
++--------+--------+
+| Application     |
+|   Server 2      |
++--------+--------+
+         |
+         v
++--------+--------+
+|    Database     |
+|     (MySQL)     |
++-----------------+
+
+
+Explanation of Additional Elements
+Second Application Server:
+
+Added for redundancy and load balancing.
+Ensures high availability and fault tolerance.
+Load Balancer (HAProxy):
+
+Distributes incoming requests among multiple application servers.
+Prevents any single application server from becoming a bottleneck.
+Load Balancer Configuration
+Distribution Algorithm: Round Robin
+Requests are distributed evenly across all available application servers in a cyclic order.
+Ensures even load distribution and efficient resource utilization.
+Active-Active vs. Active-Passive Setup
+Active-Active Setup:
+
+All servers are actively handling traffic.
+Provides high availability and load balancing.
+If one server fails, others continue to serve requests without interruption.
+Active-Passive Setup:
+
+One server (active) handles all traffic, while the other (passive) remains idle until needed.
+The passive server takes over if the active server fails.
+Database Primary-Replica (Master-Slave) Cluster
+Primary Node (Master):
+
+Handles all write operations.
+Propagates changes to replica nodes.
+Replica Node (Slave):
+
+Handles read operations to offload the primary node.
+Synchronizes data from the primary node to ensure consistency.
+Issues with This Infrastructure
+SPOF (Single Points of Failure):
+
+Load Balancer: If the load balancer fails, the entire system becomes unavailable.
+Database Primary Node: If the primary database fails and no failover mechanism is in place, write operations cannot be processed.
+Security Issues:
+
+No Firewall: The system is vulnerable to unauthorized access and attacks.
+No HTTPS: Data transmitted between the user and the server is not encrypted, risking interception.
+No Monitoring:
+
+Lack of monitoring tools means issues cannot be detected or addressed in real-time, affecting reliability and performance.
+Enhancing the Infrastructure
+Firewall: Implement firewalls to protect servers from unauthorized access.
+HTTPS: Use SSL/TLS certificates to encrypt data between the user and the server.
+Monitoring Tools: Deploy monitoring solutions (e.g., Nagios, Prometheus) to track server health and performance.

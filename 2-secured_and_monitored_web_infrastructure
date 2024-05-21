@@ -1,0 +1,117 @@
+User
+  |
+  | HTTPS Request
+  v
+DNS (Resolves www.foobar.com to Load Balancer IP)
+  |
+  v
++-----------------+
+|  Firewall 1     |
++--------+--------+
+         |
+         v
++-----------------+
+| Load Balancer   |
+|    (HAProxy)    |
++--------+--------+
+         |
+         v
++--------+--------+
+|  Firewall 2     |
++--------+--------+
+         |
+         v
++--------+--------+
+| Application     |<----+
+|   Server 1      |     |
++--------+--------+     |
+         |              |
+         v              |
++--------+--------+     |
+|   Web Server    |     |
+|     (Nginx)     |     |
++--------+--------+     |
+         |              |
+         v              |
++--------+--------+     |
+| Application     |     |
+|   Server 2      |     |
++--------+--------+     |
+         |              |
+         v              |
++--------+--------+     |
+|  Firewall 3     |     |
++--------+--------+     |
+         |              |
+         v              |
++-----------------+     |
+|    Database     |<----+
+|     (MySQL)     |
++-----------------+
+
+Components and Their Roles
+Load Balancer (HAProxy):
+Distributes incoming traffic across multiple application servers.
+Terminates SSL to offload encryption/decryption tasks from backend servers.
+Configuration: Round Robin distribution algorithm.
+Web Server (Nginx):
+Serves static content.
+Forwards dynamic requests to the application servers.
+Application Servers:
+Run the application code.
+Process dynamic requests and business logic.
+Database (MySQL):
+Manages data storage and retrieval.
+Set up in a Primary-Replica (Master-Slave) configuration for redundancy and load distribution.
+Firewalls:
+Protect the servers by controlling incoming and outgoing network traffic based on predetermined security rules.
+SSL Certificate:
+Encrypts traffic between the user and the load balancer to ensure secure communication.
+Monitoring Clients:
+Collect and send performance and health data to a monitoring service like Sumologic.
+Explanation of Additional Elements
+Firewalls:
+Protect the infrastructure by filtering incoming and outgoing traffic.
+Firewall 1: Protects the load balancer.
+Firewall 2: Protects the web server.
+Firewall 3: Protects the database.
+SSL Certificate:
+Encrypts traffic to ensure secure communication.
+Prevents man-in-the-middle attacks and data breaches.
+Monitoring Clients:
+Installed on each server to collect performance and health metrics.
+Send data to a centralized monitoring service (e.g., Sumologic).
+Specifics about the Infrastructure
+Firewalls:
+Purpose: To control access to the servers, allowing only legitimate traffic and blocking malicious attempts.
+Implementation: Configured to allow only necessary ports and protocols.
+HTTPS Traffic:
+Purpose: To encrypt data between the user and the server, ensuring privacy and integrity.
+Implementation: SSL certificate installed on the load balancer, terminating SSL connections.
+Monitoring:
+Purpose: To track server health, performance, and detect issues.
+Implementation: Monitoring clients collect data such as CPU usage, memory usage, and request rates, sending it to a centralized monitoring service.
+Monitoring Web Server QPS:
+Implementation: Use the monitoring client to collect metrics on the number of queries per second (QPS) handled by the web server.
+Configuration: Set up alerts and dashboards in the monitoring service to track and visualize QPS.
+Issues with This Infrastructure
+Terminating SSL at the Load Balancer Level:
+Issue: All traffic between the load balancer and backend servers is unencrypted.
+Mitigation: Use end-to-end encryption by also installing SSL certificates on the backend servers.
+Single MySQL Server for Writes:
+Issue: If the primary MySQL server fails, write operations cannot be processed.
+Mitigation: Implement automatic failover mechanisms and consider using a clustered database setup.
+Servers with All Same Components:
+Issue: Having all servers run all components (web server, application server, database) can lead to resource contention and difficult scaling.
+Mitigation: Separate concerns by dedicating specific servers to specific roles (e.g., separate database server, application server, and web server).
+Enhancing Security and Monitoring
+Security Enhancements:
+Implement firewalls to control access.
+Use HTTPS to encrypt all traffic.
+Regularly update and patch servers to mitigate vulnerabilities.
+Monitoring Enhancements:
+Deploy monitoring clients on all servers.
+Set up alerting for critical metrics (e.g., CPU usage, memory usage, QPS).
+Use dashboards to visualize data and identify trends.
+This infrastructure design ensures high availability, security, and monitoring, while addressing potential issues related to SSL termination, database redundancy, and resource contention.
+

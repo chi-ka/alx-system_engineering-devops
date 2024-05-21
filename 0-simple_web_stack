@@ -1,0 +1,29 @@
+User
+  |
+  | HTTP/HTTPS Request
+  v
+DNS (Resolves www.foobar.com to 8.8.8.8)
+  |
+  v
+Server (8.8.8.8)
+  |
+  | Nginx (Web Server)
+  v
+Application Server (Runs Code)
+  |
+  v
+MySQL Database
+
+Explanation Summary
+Server: Hosts all components (web server, application server, database).
+Domain Name: Maps to server IP, user-friendly address.
+DNS Record (A Record): Maps www.foobar.com to 8.8.8.8.
+Web Server (Nginx): Manages HTTP requests, serves static content, proxies to application server.
+Application Server: Runs application code, processes requests.
+Database (MySQL): Manages and stores data, executes queries.
+Communication: HTTP/HTTPS protocols.
+
+Issues
+SPOF: Entire site fails if the server goes down.
+Maintenance Downtime: Service interruption during updates.
+Scalability: Limited ability to handle increased traffic.
