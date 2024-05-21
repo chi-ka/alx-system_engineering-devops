@@ -26,7 +26,3 @@ add_or_replace_entry "8.8.8.8" "facebook.com"
 
 # Copy the modified hosts file back to /etc/hosts
 cp -f ~/hosts.new /etc/hosts
-
-# Output the final /etc/hosts file for verification
-echo "Final /etc/hosts file:"
-cat /etc/hosts
