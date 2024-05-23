@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#package list and install nginx
+sudo apt-get update -y
+sudo apt-get install nginx -y
+
+# Create a simple HTML page
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Create a custom 404 error page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+# Ensure Nginx is configured to listen on port 80, serve the HTML file, handle redirection, and use a custom 404 page
+sudo bash -c 'cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+}
+EOF'
+
+# Restart nginx using the service command
+sudo service nginx restart
+
+# Ensure nginx service is running
+sudo service nginx status
