@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #package list and install HAProxy
-apt-get install --no-install-recommends software-properties-common
-add-apt-repository ppa:vbernat/haproxy-2.6
-apt-get install haproxy=2.6.\*
+sudo apt-get install -y --no-install-recommends software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.6
+sudo apt-get install -y haproxy=2.6.\*
 
 
 # Backup the original HAProxy configuration file
@@ -25,4 +25,5 @@ EOF
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
 # Enable and start the HAProxy service
+sudo systemctl enable haproxy
 sudo service haproxy restart
