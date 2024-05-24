@@ -13,7 +13,6 @@ cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
 
 frontend  ehoneah-frontend
         bind *:80
-        mode http
         default_backend ehoneah-backend
 backend ehoneah-backend
         balance roundrobin
