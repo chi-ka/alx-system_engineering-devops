@@ -1,0 +1,13 @@
+fronntend https_front
+    bind *:443 ssl crt /etc/ssl/private/www.YOUR_DOMAIN.pem
+    reqadd X-Forwarded-Proto:\ https
+    default_backend http_back
+
+frontend http_front
+    bind *:80
+    redirect scheme https code 301 if !{ ssl_fc }
+
+backend http_back
+    balance roundrobin
+    server web01 100.26.232.23:80 check
+    server web02 34.232.78.109:80 check
